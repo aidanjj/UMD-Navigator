@@ -8,6 +8,7 @@ public class Path_MVP_Interface {
     interface View {
         void updatePaths(LinkedHashMap<Vertex,PointDP> path);
         void updateDirections(String directions);
+        void updateDistance(Float distance);
     }
     interface Presenter{
         void findPath(String srcLabel, String dstLabel);

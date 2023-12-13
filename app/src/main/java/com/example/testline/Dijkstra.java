@@ -3,7 +3,13 @@ import java.util.HashMap;
 import java.util.PriorityQueue;
 import java.util.Vector;
 public class Dijkstra {
-
+    /**
+     * Given a graph and a starting vertex, this returns a HashMap containing each vertex
+     * paired with its distance from the starting vertex.
+     * @param g The graph to be traversed.
+     * @param v The starting vertex.
+     * @return A HashMap containing each vertex paired with its distance from the starting vertex.
+     */
     HashMap<Vertex,Float> findDistances(Graph g, Vertex v){
         HashMap<Vertex,Float> distances = new HashMap<>();
         HashMap<Vertex,Vertex> pathList = new HashMap<>();
@@ -29,6 +35,15 @@ public class Dijkstra {
         }
         return distances;
     }
+
+    /**
+     * Giving a graph and a starting vertex, this returns a HashMap containing each
+     * vertex paired with its previously traversed vertex.
+     * This is useful for keeping track of the vertices traversed on the shortest paths.
+     * @param g The graph to be traversed
+     * @param v The starting vertex
+     * @return A HashMap containing each vertex paired with its previously traversed vertex.
+     */
     HashMap<Vertex,Vertex> searchPaths(Graph g, Vertex v){
         HashMap<Vertex,Float> distances = new HashMap<>();
         HashMap<Vertex,Vertex> pathList = new HashMap<>();
@@ -52,12 +67,6 @@ public class Dijkstra {
                 }
             }
         }
-        /*for (HashMap.Entry<Vertex,Float> entry : distances.entrySet()){
-            System.out.println(entry.getKey().getLabel() + ": " + entry.getValue());
-        }*/
-        /*for (HashMap.Entry<Vertex,Vertex> entry : pathList.entrySet()){
-            System.out.println(entry.getKey().getLabel() + "->" + entry.getValue().getLabel());
-        }*/
         return pathList;
     }
 }

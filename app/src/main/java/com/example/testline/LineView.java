@@ -19,6 +19,15 @@ public class LineView extends View {
         this.pixelDensity = getResources().getDisplayMetrics().density;
         init();
     }
+
+    /**
+     * Creates a line given the starting and ending dp.
+     * @param context The parent activity
+     * @param startX Starting x dp
+     * @param startY Starting y dp
+     * @param endX Ending x dp
+     * @param endY Ending y dp
+     */
     public LineView(Context context, float startX, float startY, float endX, float endY){
         super(context);
         this.startX = startX;
@@ -39,6 +48,10 @@ public class LineView extends View {
         // Set other paint attributes as needed
     }
 
+    /**
+     * Converts dp to pixels then draws the line.
+     * @param canvas the canvas on which the background will be drawn
+     */
     @Override
     protected void onDraw(Canvas canvas){
         super.onDraw(canvas);

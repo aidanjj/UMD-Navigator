@@ -11,6 +11,12 @@ public class PathPresenter implements Path_MVP_Interface.Presenter{
     private Dijkstra dijkstra = new Dijkstra();
     private UMDLocationManager  locationManager = new UMDLocationManager();
     private HashMap<Vertex,PointDP> locationList = new HashMap<>();
+
+    /**
+     * Returns the vertex corresponding to a label.
+     * @param label The label of the vertex.
+     * @return The vertex that has the inputted label.
+     */
     private Vertex getVertexFromString(String label){
         System.out.println("!" + label);
         for (HashMap.Entry<Vertex,PointDP> entry : locationList.entrySet()){
@@ -21,6 +27,36 @@ public class PathPresenter implements Path_MVP_Interface.Presenter{
         }
         return new Vertex();
     }
+
+    /**
+     * Returns the total distance traversed on the fastest route.
+     * @param path The LinkedHashMap containing the fastest route.
+     * @return The total distance traversed.
+     */
+    private float getTotalDistance(LinkedHashMap<Vertex,PointDP> path){
+        float distance = 0f;
+        Vertex prevLocation = new Vertex();
+        Boolean isFirstEntry = true;
+        for (Map.Entry<Vertex,PointDP> entry : path.entrySet()){
+            if (isFirstEntry){
+                prevLocation = entry.getKey();
+                isFirstEntry = false;
+            }
+            else {
+                distance += getDistance(prevLocation,entry.getKey());
+            }
+        }
+        return distance;
+    }
+
+    /**
+     * Converts the HashMap returned by Dijkstra's algorithm into
+     * a LinkedHashMap containing the fastest route to the destination.
+     * @param dijkstraPaths The HashMap returns by Dijkstra.
+     * @param dst The vertex of the destination location.
+     * @return A LinkedHashMap containing the vertices and locations of each location visited on
+     * the fastest route.
+     */
     private LinkedHashMap<Vertex,PointDP> getPathAsList(HashMap<Vertex,Vertex> dijkstraPaths, Vertex dst){
         LinkedHashMap<Vertex,PointDP> path = new LinkedHashMap<>();
         path.put(dst,locationList.get(dst));
@@ -32,12 +68,23 @@ public class PathPresenter implements Path_MVP_Interface.Presenter{
         }
         return path;
     }
+
+    /**
+     * Returns the distance between two locations in meters.
+     * @param v1 Vertex of the first location.
+     * @param v2 Vertex of the second location.
+     * @return The distance between the two location in meters.
+     */
     private float getDistance(Vertex v1, Vertex v2){
         PointDP p1 = locationList.get(v1);
         PointDP p2 = locationList.get(v2);
         float distance = (float)(1.1866*Math.sqrt((p1.getX() - p2.getX())*(p1.getX() - p2.getX())+(p1.getY() - p2.getY())*(p1.getY() - p2.getY())));
         return distance;
     }
+
+    /**
+     * Initializes the graph using location data.
+     */
     private void initializeGraph(){
         Vector<LocationData> locationData = locationManager.getLocationData();
         for (LocationData src : locationData){
@@ -64,10 +111,12 @@ public class PathPresenter implements Path_MVP_Interface.Presenter{
             }
         }
     }
-    public PathPresenter(Path_MVP_Interface.View view){
-        initializeGraph();
-        this.view = view;
-    }
+
+    /**
+     * Formats the directions as a string to update the View.
+     * @param pathList The LinkedHashMap containing the vertices and locations of each location visited.
+     * @return The directions formatted as a string.
+     */
     private String getDirectionString(LinkedHashMap<Vertex,PointDP> pathList){
         String directions = "";
         Vector<LocationData> locationData = locationManager.getLocationData();
@@ -90,6 +139,17 @@ public class PathPresenter implements Path_MVP_Interface.Presenter{
         }
         return directions;
     }
+    public PathPresenter(Path_MVP_Interface.View view){
+        initializeGraph();
+        this.view = view;
+    }
+
+    /**
+     * Obtains the shortest path between a source and a destination, then updates
+     * the View.
+     * @param srcLabel The label, or name, of the starting location.
+     * @param dstLabel The label, or name, of the destination.
+     */
     @Override
     public void findPath(String srcLabel, String dstLabel){
         Vertex src = getVertexFromString(srcLabel);
@@ -98,6 +158,8 @@ public class PathPresenter implements Path_MVP_Interface.Presenter{
         HashMap<Vertex,Vertex> pathList = dijkstra.searchPaths(g,src);
         LinkedHashMap<Vertex,PointDP> path = getPathAsList(pathList,dst);
         view.updatePaths(path);
+        System.out.println("!:" + getTotalDistance(path));
         view.updateDirections(getDirectionString(path));
+        view.updateDistance(getTotalDistance(path));
     }
 }

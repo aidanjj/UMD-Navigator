@@ -7,6 +7,12 @@ public class PointDP {
         this.x = 0;
         this.y = 0;
     }
+
+    /**
+     * Initializes the point containing the location on an image in dp.
+     * @param x The x location in dp.
+     * @param y The y location in dp.
+     */
     public PointDP(float x, float y){
         this.x = x;
         this.y = y;

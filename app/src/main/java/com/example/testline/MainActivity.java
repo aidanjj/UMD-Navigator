@@ -3,12 +3,14 @@ package com.example.testline;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.HashMap;
@@ -22,6 +24,8 @@ public class MainActivity extends AppCompatActivity implements Path_MVP_Interfac
     private ViewGroup mainLayout;
     private FrameLayout pathLayout;
     private LinearLayout interfaceLayout;
+    private TextView directionsBox;
+    private TextView distanceBox;
     private PathPresenter presenter = new PathPresenter(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +39,21 @@ public class MainActivity extends AppCompatActivity implements Path_MVP_Interfac
         this.mainLayout.addView(pathView);
         this.mainLayout.addView(interfaceView);
         this.pathLayout = pathView.findViewById(R.id.graph_layout);
+        this.directionsBox = interfaceView.findViewById(R.id.directions_box);
+        this.directionsBox.setMovementMethod(new ScrollingMovementMethod());
+        this.distanceBox = interfaceView.findViewById(R.id.distance_box);
+
         //presenter.findPath("Ianni","Superior Dining");
 
 
 
 
     }
+
+    /**
+     *
+     * @param v
+     */
     public void handleClick(View v){
         pathLayout.removeAllViews();
         EditText srcText = findViewById(R.id.starting_point_edit);
@@ -49,6 +62,12 @@ public class MainActivity extends AppCompatActivity implements Path_MVP_Interfac
         String dst = dstText.getText().toString();
         presenter.findPath(src,dst);
     }
+
+    /**
+     * Draws the path from the starting location to the destination given the data about the path
+     * @param path The LinkedHashMap containing the vertices and screen positions associated with
+     *             the shortest path.
+     */
     @Override
     public void updatePaths(LinkedHashMap<Vertex,PointDP> path){
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
@@ -69,10 +88,24 @@ public class MainActivity extends AppCompatActivity implements Path_MVP_Interfac
             }
         }
     }
+
+    /**
+     * Updates the direction box with the given String containing the directions.
+     * @param directions The String containing the directions.
+     */
     @Override
     public void updateDirections(String directions){
-        TextView directionBox = findViewById(R.id.directions_box);
-        directionBox.setText(directions);
+        directionsBox.setText(directions);
+    }
+
+    /**
+     * Updates the distance box given the distance between the starting location and the destination.
+     * @param distance The distance between the starting location and the destination.
+     */
+    @Override
+    public void updateDistance(Float distance){
+        String newText = "Distance: " + String.format("%.2f",distance) + "m";
+        distanceBox.setText(newText);
     }
 
 }

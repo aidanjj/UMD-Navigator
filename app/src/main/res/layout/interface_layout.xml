@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/user_interface"
     android:layout_width="match_parent"
@@ -30,12 +31,26 @@
         android:text="Go!"
         android:translationY="400dp"
         android:onClick="handleClick"/>
-    <TextView
-        android:id="@+id/directions_box"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:translationY="400dp"
 
+        <TextView
+            android:id="@+id/directions_box"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:translationY="400dp"
+            android:scrollbars="vertical"
+            android:gravity="center"
+            android:minHeight="80dp"
+            android:maxHeight="150dp"
+            android:padding="2dp"
+            android:background="@drawable/text_box"
+            />
+    <TextView
+        android:id="@+id/distance_box"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:minHeight="30dp"
+        android:translationY="400dp"
+        android:gravity="center"
         />
 
 </LinearLayout>
