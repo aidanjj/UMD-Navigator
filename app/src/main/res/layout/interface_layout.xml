@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/user_interface"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
+
+    <EditText
+        android:id="@+id/starting_point_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:translationY="400dp"
+        android:minHeight="48dp"
+        android:background="@drawable/text_box"
+        android:gravity="center"
+        android:hint="Starting Point" />
+    <EditText
+        android:id="@+id/destination_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:translationY="400dp"
+        android:minHeight="48dp"
+        android:background="@drawable/text_box"
+        android:gravity="center"
+        android:hint="Destination" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go!"
+        android:translationY="400dp"
+        android:onClick="handleClick"/>
+    <TextView
+        android:id="@+id/directions_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:translationY="400dp"
+
+        />
+
+</LinearLayout>
