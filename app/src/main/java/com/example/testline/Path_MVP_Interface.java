@@ -9,8 +9,10 @@ public class Path_MVP_Interface {
         void updatePaths(LinkedHashMap<Vertex,PointDP> path);
         void updateDirections(String directions);
         void updateDistance(Float distance);
+        void showLocations(String locationList);
     }
     interface Presenter{
         void findPath(String srcLabel, String dstLabel);
+        void getLocationList();
     }
 }

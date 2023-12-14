@@ -10,7 +10,7 @@ public class Dijkstra {
      * @param v The starting vertex.
      * @return A HashMap containing each vertex paired with its distance from the starting vertex.
      */
-    HashMap<Vertex,Float> findDistances(Graph g, Vertex v){
+    public HashMap<Vertex,Float> findDistances(Graph g, Vertex v){
         HashMap<Vertex,Float> distances = new HashMap<>();
         HashMap<Vertex,Vertex> pathList = new HashMap<>();
         VertexPriorityQueue queue = new VertexPriorityQueue();
@@ -44,7 +44,7 @@ public class Dijkstra {
      * @param v The starting vertex
      * @return A HashMap containing each vertex paired with its previously traversed vertex.
      */
-    HashMap<Vertex,Vertex> searchPaths(Graph g, Vertex v){
+    public HashMap<Vertex,Vertex> searchPaths(Graph g, Vertex v){
         HashMap<Vertex,Float> distances = new HashMap<>();
         HashMap<Vertex,Vertex> pathList = new HashMap<>();
         VertexPriorityQueue queue = new VertexPriorityQueue();

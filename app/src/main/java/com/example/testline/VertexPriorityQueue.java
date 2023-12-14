@@ -30,7 +30,14 @@ public class VertexPriorityQueue {
     public Boolean isEmpty(){
         return queue.isEmpty();
     }
-
+    public Boolean contains(Vertex v){
+        for (Pair p : queue){
+            if (p.vertex == v){
+                return true;
+            }
+        }
+        return false;
+    }
     public Integer size(){
         return queue.size();
     }

@@ -1,7 +1,9 @@
 package com.example.testline;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
@@ -12,6 +14,8 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -43,16 +47,10 @@ public class MainActivity extends AppCompatActivity implements Path_MVP_Interfac
         this.directionsBox.setMovementMethod(new ScrollingMovementMethod());
         this.distanceBox = interfaceView.findViewById(R.id.distance_box);
 
-        //presenter.findPath("Ianni","Superior Dining");
-
-
-
-
     }
 
     /**
-     *
-     * @param v
+     * Updates view when user presses 'Go!' button.
      */
     public void handleClick(View v){
         pathLayout.removeAllViews();
@@ -63,6 +61,31 @@ public class MainActivity extends AppCompatActivity implements Path_MVP_Interfac
         presenter.findPath(src,dst);
     }
 
+    /**
+     * Updates view when user presses info button.
+     */
+    public void handleInfoClick(View v){
+        presenter.getLocationList();
+    }
+
+    /**
+     * Shows a dialogue containing all of the supported locations.
+     * @param locationList The string containing all of the locations.
+     */
+    public void showLocations(String locationList){
+        AlertDialog.Builder infoDialogueBuilder = new AlertDialog.Builder(this);
+        infoDialogueBuilder.setTitle("Info");
+        String message = ("Here are the supported locations:\n").concat(locationList);
+        infoDialogueBuilder.setMessage(message);
+        infoDialogueBuilder.setPositiveButton("Dismiss", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        AlertDialog infoDialogue = infoDialogueBuilder.create();
+        infoDialogue.show();
+    }
     /**
      * Draws the path from the starting location to the destination given the data about the path
      * @param path The LinkedHashMap containing the vertices and screen positions associated with
@@ -107,5 +130,7 @@ public class MainActivity extends AppCompatActivity implements Path_MVP_Interfac
         String newText = "Distance: " + String.format("%.2f",distance) + "m";
         distanceBox.setText(newText);
     }
+
+
 
 }

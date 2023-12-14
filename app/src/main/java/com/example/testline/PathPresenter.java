@@ -52,19 +52,19 @@ public class PathPresenter implements Path_MVP_Interface.Presenter{
     /**
      * Converts the HashMap returned by Dijkstra's algorithm into
      * a LinkedHashMap containing the fastest route to the destination.
-     * @param dijkstraPaths The HashMap returns by Dijkstra.
+     * @param traversalPaths The HashMap returns by Dijkstra.
      * @param dst The vertex of the destination location.
      * @return A LinkedHashMap containing the vertices and locations of each location visited on
      * the fastest route.
      */
-    private LinkedHashMap<Vertex,PointDP> getPathAsList(HashMap<Vertex,Vertex> dijkstraPaths, Vertex dst){
+    private LinkedHashMap<Vertex,PointDP> getPathAsList(HashMap<Vertex,Vertex> traversalPaths, Vertex dst){
         LinkedHashMap<Vertex,PointDP> path = new LinkedHashMap<>();
         path.put(dst,locationList.get(dst));
         Vertex curVertex = dst;
-        while (dijkstraPaths.containsKey(curVertex)){
-            Vertex prevVertex = dijkstraPaths.get(curVertex);
+        while (traversalPaths.containsKey(curVertex)){
+            Vertex prevVertex = traversalPaths.get(curVertex);
             path.put(prevVertex,locationList.get(prevVertex));
-            curVertex = dijkstraPaths.get(curVertex);
+            curVertex = traversalPaths.get(curVertex);
         }
         return path;
     }
@@ -143,7 +143,14 @@ public class PathPresenter implements Path_MVP_Interface.Presenter{
         initializeGraph();
         this.view = view;
     }
-
+    @Override
+    public void getLocationList(){
+        String list = "";
+        for (HashMap.Entry<Vertex,PointDP> entry : locationList.entrySet()){
+            list = list.concat(entry.getKey().getLabel() + "\n");
+        }
+        view.showLocations(list);
+    }
     /**
      * Obtains the shortest path between a source and a destination, then updates
      * the View.
@@ -154,12 +161,21 @@ public class PathPresenter implements Path_MVP_Interface.Presenter{
     public void findPath(String srcLabel, String dstLabel){
         Vertex src = getVertexFromString(srcLabel);
         Vertex dst = getVertexFromString(dstLabel);
-        System.out.println(srcLabel + "," + dstLabel + "," + src.getLabel() + "," + dst.getLabel() + "\n");
-        HashMap<Vertex,Vertex> pathList = dijkstra.searchPaths(g,src);
-        LinkedHashMap<Vertex,PointDP> path = getPathAsList(pathList,dst);
-        view.updatePaths(path);
-        System.out.println("!:" + getTotalDistance(path));
-        view.updateDirections(getDirectionString(path));
-        view.updateDistance(getTotalDistance(path));
+        if (src.getLabel().equals("Unassigned")){
+            view.updateDirections("Starting point not found.");
+        }
+        else if (dst.getLabel().equals("Unassigned")){
+            view.updateDirections("Destination not found.");
+        }
+        else {
+            AStarTraverse aStar = new AStarTraverse(g, locationList);
+            HashMap<Vertex,Vertex> pathList = aStar.findPath(g,src,dst);
+
+            //HashMap<Vertex, Vertex> pathList = dijkstra.searchPaths(g, src);
+            LinkedHashMap<Vertex, PointDP> path = getPathAsList(pathList, dst);
+            view.updatePaths(path);
+            view.updateDirections(getDirectionString(path));
+            view.updateDistance(getTotalDistance(path));
+        }
     }
 }
