@@ -17,7 +17,7 @@ public class AStarTraverse {
     private float getDistance(Vertex v1, Vertex v2){
         PointDP p1 = locations.get(v1);
         PointDP p2 = locations.get(v2);
-        float distance = (float)(1.1866*Math.sqrt((p1.getX() - p2.getX())*(p1.getX() - p2.getX())+(p1.getY() - p2.getY())*(p1.getY() - p2.getY())));
+        float distance = (float)(2.2704*Math.sqrt((p1.getX() - p2.getX())*(p1.getX() - p2.getX())+(p1.getY() - p2.getY())*(p1.getY() - p2.getY())));
         return distance;
     }
     public AStarTraverse(Graph g, HashMap<Vertex,PointDP> locations){

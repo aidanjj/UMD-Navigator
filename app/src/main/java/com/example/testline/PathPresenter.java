@@ -18,7 +18,6 @@ public class PathPresenter implements Path_MVP_Interface.Presenter{
      * @return The vertex that has the inputted label.
      */
     private Vertex getVertexFromString(String label){
-        System.out.println("!" + label);
         for (HashMap.Entry<Vertex,PointDP> entry : locationList.entrySet()){
             System.out.println(entry.getKey().getLabel());
             if (entry.getKey().getLabel().equalsIgnoreCase(label)){
@@ -39,12 +38,12 @@ public class PathPresenter implements Path_MVP_Interface.Presenter{
         Boolean isFirstEntry = true;
         for (Map.Entry<Vertex,PointDP> entry : path.entrySet()){
             if (isFirstEntry){
-                prevLocation = entry.getKey();
                 isFirstEntry = false;
             }
             else {
                 distance += getDistance(prevLocation,entry.getKey());
             }
+            prevLocation = entry.getKey();
         }
         return distance;
     }
@@ -78,7 +77,7 @@ public class PathPresenter implements Path_MVP_Interface.Presenter{
     private float getDistance(Vertex v1, Vertex v2){
         PointDP p1 = locationList.get(v1);
         PointDP p2 = locationList.get(v2);
-        float distance = (float)(1.1866*Math.sqrt((p1.getX() - p2.getX())*(p1.getX() - p2.getX())+(p1.getY() - p2.getY())*(p1.getY() - p2.getY())));
+        float distance = (float)(2.2704*Math.sqrt((p1.getX() - p2.getX())*(p1.getX() - p2.getX())+(p1.getY() - p2.getY())*(p1.getY() - p2.getY())));
         return distance;
     }
 
